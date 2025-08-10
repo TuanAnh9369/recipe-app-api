@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'drf_spectacular',
+    'user',
+    'recipe',
 ]
 
 MIDDLEWARE = [
@@ -121,9 +126,51 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/static/'
+MEDIA_URL = '/static/media/'
+
+STATIC_ROOT = '/vol/web/static'
+MEDIA_ROOT = '/vol/web/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'core.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Recipe API',
+    'DESCRIPTION': 'API for recipe app.',
+    'VERSION': '1.0.0',
+    # Make schema accurate for request vs response (recommended)
+    'COMPONENT_SPLIT_REQUEST': True,
+    # For dev: show UI publicly; in production set SERVE_PUBLIC=False and protect with SERVE_PERMISSIONS
+    # 'SERVE_PUBLIC': True,
+    # 'SERVE_INCLUDE_SCHEMA': False,
+    # Use sidecar in dev (install drf-spectacular[sidecar]); in prod you might point to a CDN or your static files
+    # 'SWAGGER_UI_DIST': 'SIDECAR',
+    # 'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    # 'REDOC_DIST': 'SIDECAR',
+    # If your API lives under /api
+    # 'SCHEMA_PATH_PREFIX': '/api',
+    # Keep enum postprocessing for nice enum components
+    # 'POSTPROCESSING_HOOKS': [
+    #     'drf_spectacular.hooks.postprocess_schema_enums',
+    # ],
+    # show blank/null option in enums (ok for most projects)
+    # 'ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE': True,
+    # Example overrides only needed if enum naming conflicts
+    # 'ENUM_NAME_OVERRIDES': {
+        # 'app.Model.field': 'DesiredEnumName',
+    # },
+    # 'ENUM_OVERRIDES': {
+        # 'app.Model.field': ['VAL1','VAL2'],
+    # },
+    # Optional: limit serving of swagger to admins in production
+    # 'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAdminUser'],
+}

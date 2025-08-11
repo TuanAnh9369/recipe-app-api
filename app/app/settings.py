@@ -146,8 +146,8 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Recipe API',
-    'DESCRIPTION': 'API for recipe app.',
+    'TITLE': 'TuanAnh Recipe API',
+    'DESCRIPTION': 'API for recipe app by TuanAnh.',
     'VERSION': '1.0.0',
     # Make schema accurate for request vs response (recommended)
     'COMPONENT_SPLIT_REQUEST': True,

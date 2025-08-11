@@ -20,13 +20,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r42dml0f5a$cot+3*xfa$ud(p+cns%zv7qes=&4ft@y1qxe=v%'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'changeme')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
 ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS.extend(
+    filter(None, os.environ.get('ALLOWED_HOSTS', '').split(','))
+)
 
 # Application definition
 
@@ -149,28 +151,4 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     # Make schema accurate for request vs response (recommended)
     'COMPONENT_SPLIT_REQUEST': True,
-    # For dev: show UI publicly; in production set SERVE_PUBLIC=False and protect with SERVE_PERMISSIONS
-    # 'SERVE_PUBLIC': True,
-    # 'SERVE_INCLUDE_SCHEMA': False,
-    # Use sidecar in dev (install drf-spectacular[sidecar]); in prod you might point to a CDN or your static files
-    # 'SWAGGER_UI_DIST': 'SIDECAR',
-    # 'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
-    # 'REDOC_DIST': 'SIDECAR',
-    # If your API lives under /api
-    # 'SCHEMA_PATH_PREFIX': '/api',
-    # Keep enum postprocessing for nice enum components
-    # 'POSTPROCESSING_HOOKS': [
-    #     'drf_spectacular.hooks.postprocess_schema_enums',
-    # ],
-    # show blank/null option in enums (ok for most projects)
-    # 'ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE': True,
-    # Example overrides only needed if enum naming conflicts
-    # 'ENUM_NAME_OVERRIDES': {
-        # 'app.Model.field': 'DesiredEnumName',
-    # },
-    # 'ENUM_OVERRIDES': {
-        # 'app.Model.field': ['VAL1','VAL2'],
-    # },
-    # Optional: limit serving of swagger to admins in production
-    # 'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAdminUser'],
 }
